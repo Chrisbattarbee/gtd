@@ -27,6 +27,10 @@ Item *Project::get_root_item() {
     return this->backing_org_file->get_root_item();
 }
 
+std::string *Project::get_name() {
+    return &this->name;
+}
+
 Gtd::Gtd(std::string root_directory) {
     this->root_directory = root_directory;
     this->projects = new std::vector<Project*>;
@@ -41,4 +45,13 @@ Gtd::Gtd(std::string root_directory) {
 Project *Gtd::create_project(std::string name) {
     auto* project = new Project(root_directory + name);
     this->projects->push_back(project);
+}
+
+std::optional<Project*> Gtd::get_project(std::string name) {
+    for (auto project: *this->projects) {
+        if (name == *project->get_name()) {
+            return std::optional<Project*>(project);
+        }
+        return std::nullopt;
+    }
 }
