@@ -1,8 +1,16 @@
-#include <iostream>
-#include "lib/org_mode_file.h"
 
-int main() {
-    std::string input_path = std::string("/home/chris/notes/gtd/inbox.org");
-    OrgModeFile* org_mode_file = new OrgModeFile(input_path);
-    org_mode_file->write_file();
+#include "lib/CLI11.hpp"
+#include "lib/subcommands/add_subcommand.h"
+#include "lib/subcommands/search_subcommand.h"
+
+
+int main(int argc, char** argv) {
+    CLI::App app{"A command line tool to help with GTD."};
+    setup_add_subcommand(app);
+    setup_search_subcommand(app);
+    app.require_subcommand();
+
+    CLI11_PARSE(app, argc, argv);
 }
+
+
