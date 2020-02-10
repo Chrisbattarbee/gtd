@@ -25,6 +25,7 @@ public:
     Gtd(std::string root_directory);
     Project* create_project(std::string name);
     std::optional<Project*> get_project(std::string name);
+    std::vector<Project*>* get_projects();
 private:
     std::string root_directory;
     std::vector<Project*>* projects;

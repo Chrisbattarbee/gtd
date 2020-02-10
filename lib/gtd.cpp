@@ -41,6 +41,9 @@ Gtd::Gtd(std::string root_directory) {
 
     // Read all existing projects in
     for (const auto & entry : std::filesystem::directory_iterator(root_directory)) {
+        if (entry.path().extension() != ".org") {
+            continue;
+        }
         auto* project = new Project(entry.path().filename().replace_extension(""), entry.path());
         this->projects->push_back(project);
     }
@@ -58,4 +61,8 @@ std::optional<Project*> Gtd::get_project(std::string name) {
         }
     }
     return std::nullopt;
+}
+
+std::vector<Project *> *Gtd::get_projects() {
+    return this->projects;
 }
