@@ -16,11 +16,11 @@ public:
     explicit OrgModeFile(std::string path);
     void write_file();
     Item* get_root_item();
+    static int get_number_of_asterisks(std::string* s);
 private:
     std::vector<std::string>* getLines(const std::string *path) const;
     void add_all_subitems(std::vector<std::string> *lines, int indentation_level, int line_after_parent, Item *parent_item, std::set<int>* linesParsed);
     void produce_lines_for_file_write(Item *item, std::vector<std::string>* out_lines);
-    int get_number_of_asterisks(std::string* s);
 
     std::string path;
     Item* root_item;
@@ -52,6 +52,7 @@ public:
     std::vector<std::string>* get_content();
     void set_content(std::vector<std::string>* content);
     void add_content_line(std::string content_line);
+    void set_title(std::string title);
 
 private:
     Item* parent;

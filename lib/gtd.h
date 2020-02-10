@@ -9,11 +9,12 @@
 
 class Project {
 public:
-    Project(std::string path);
+    Project(std::string name, std::string path);
     void add_item(std::string title, std::optional<TodoStatus> todo_status);
     void add_sub_item(Item* parent_item, std::string title, std::optional<TodoStatus> todo_status);
     Item* get_root_item();
     std::string* get_name();
+    void write_project();
 private:
     OrgModeFile* backing_org_file;
     std::string name;

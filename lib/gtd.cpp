@@ -6,7 +6,7 @@
 #include <filesystem>
 
 
-Project::Project(std::string path) {
+Project::Project(std::string name, std::string path) {
     this->name = name;
     this->backing_org_file = new OrgModeFile(path);
 }
@@ -31,19 +31,23 @@ std::string *Project::get_name() {
     return &this->name;
 }
 
+void Project::write_project() {
+    this->backing_org_file->write_file();
+}
+
 Gtd::Gtd(std::string root_directory) {
     this->root_directory = root_directory;
     this->projects = new std::vector<Project*>;
 
     // Read all existing projects in
     for (const auto & entry : std::filesystem::directory_iterator(root_directory)) {
-        auto* project = new Project(entry.path());
+        auto* project = new Project(entry.path().filename().replace_extension(""), entry.path());
         this->projects->push_back(project);
     }
 }
 
 Project *Gtd::create_project(std::string name) {
-    auto* project = new Project(root_directory + name);
+    auto* project = new Project(name, root_directory + name + ".org");
     this->projects->push_back(project);
 }
 
@@ -52,6 +56,6 @@ std::optional<Project*> Gtd::get_project(std::string name) {
         if (name == *project->get_name()) {
             return std::optional<Project*>(project);
         }
-        return std::nullopt;
     }
+    return std::nullopt;
 }

@@ -3,6 +3,7 @@
 #include <set>
 
 #include "org_mode_file.h"
+#include "magic_enum.hpp"
 
 OrgModeFile::OrgModeFile(std::string path) {
     std::vector<std::string> *lines = getLines(&path);
@@ -12,11 +13,11 @@ OrgModeFile::OrgModeFile(std::string path) {
     this->root_item = root_item;
 }
 
-int OrgModeFile::get_number_of_asterisks(std::string* s) {
+int OrgModeFile::get_number_of_asterisks(std::string *s) {
     int total = 0;
     for (char x: *s) {
         if (x == '*') {
-            total ++;
+            total++;
         } else {
             break;
         }
@@ -25,7 +26,7 @@ int OrgModeFile::get_number_of_asterisks(std::string* s) {
 }
 
 void OrgModeFile::add_all_subitems(std::vector<std::string> *lines, int indentation_level, int line_after_parent,
-                                   Item *parent_item, std::set<int>* linesParsed) {
+                                   Item *parent_item, std::set<int> *linesParsed) {
     std::string line;
     int x = line_after_parent;
     while (x < lines->size()) {
@@ -41,7 +42,7 @@ void OrgModeFile::add_all_subitems(std::vector<std::string> *lines, int indentat
             Item *newChild = new Item(parent_item, line);
             parent_item->add_child(newChild);
             add_all_subitems(lines, indentation_level + 1, x + 1, newChild, linesParsed);
-        } else if (numAsterisks == 0){
+        } else if (numAsterisks == 0) {
             // It is content
             linesParsed->insert(x);
             parent_item->add_content_line(line);
@@ -99,6 +100,14 @@ void OrgModeFile::write_file() {
 }
 
 Item::Item(Item *parent, std::string title) {
+    if (OrgModeFile::get_number_of_asterisks(&title) == 0 && parent != nullptr) {
+        auto parent_title = parent->get_title();
+        int num_asterisks_to_add = OrgModeFile::get_number_of_asterisks(&parent_title) + 1;
+        for (int x = 0; x < num_asterisks_to_add; x++) {
+            title.insert(0, "*");
+        }
+        title.insert(num_asterisks_to_add, " ");
+    }
     this->parent = parent;
     this->title = title;
     this->todo_status = std::nullopt;
@@ -114,9 +123,10 @@ std::optional<TodoStatus> Item::get_todo_status() {
     return this->todo_status;
 }
 
-Item::Item(Item *parent, std::string title, TodoStatus status) {
-    Item(parent, title);
+Item::Item(Item *parent, std::string title, TodoStatus status) : Item::Item(parent, title) {
     this->todo_status = std::optional<TodoStatus>(status);
+    this->title.insert(OrgModeFile::get_number_of_asterisks(&this->title) + 1, " ");
+    this->title.insert(OrgModeFile::get_number_of_asterisks(&this->title) + 1, magic_enum::enum_name(status));
 }
 
 bool Item::is_todo() {

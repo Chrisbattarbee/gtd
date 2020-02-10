@@ -3,6 +3,8 @@
 //
 
 #include "add_subcommand.h"
+#include "../gtd.h"
+#include "utils.h"
 
 void setup_add_subcommand(CLI::App &app) {
     auto opts = std::make_shared<AddSubCommandOptions>();
@@ -13,5 +15,9 @@ void setup_add_subcommand(CLI::App &app) {
 }
 
 void run_add_subcommand(AddSubCommandOptions const &opt) {
-
+    auto gtd = new Gtd(get_project_directory());
+    Project *const &inbox = gtd->get_project("inbox").value();
+    auto root_item = inbox->get_root_item();
+    root_item->add_child(new Item(root_item, opt.todo_item, TODO));
+    inbox->write_project();
 }
