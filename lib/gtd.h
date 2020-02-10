@@ -15,6 +15,7 @@ public:
     Item* get_root_item();
     std::string* get_name();
     void write_project();
+    std::string to_string();
 private:
     OrgModeFile* backing_org_file;
     std::string name;

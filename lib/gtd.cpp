@@ -35,6 +35,10 @@ void Project::write_project() {
     this->backing_org_file->write_file();
 }
 
+std::string Project::to_string() {
+    return backing_org_file->to_string();
+}
+
 Gtd::Gtd(std::string root_directory) {
     this->root_directory = root_directory;
     this->projects = new std::vector<Project*>;

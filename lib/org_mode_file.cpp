@@ -99,6 +99,17 @@ void OrgModeFile::write_file() {
     org_file.close();
 }
 
+std::string OrgModeFile::to_string() {
+    // TODO Make this better than just the file
+    auto lines = new std::vector<std::string>();
+    produce_lines_for_file_write(this->root_item, lines);
+    std::string ret = "";
+    for (const auto& line: *lines) {
+        ret += line + "\n";
+    }
+    return ret;
+}
+
 Item::Item(Item *parent, std::string title) {
     if (OrgModeFile::get_number_of_asterisks(&title) == 0 && parent != nullptr) {
         auto parent_title = parent->get_title();
