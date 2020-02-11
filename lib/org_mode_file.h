@@ -18,6 +18,7 @@ public:
     Item* get_root_item();
     static int get_number_of_asterisks(std::string* s);
     std::string to_string();
+    std::string get_path();
 private:
     std::vector<std::string>* getLines(const std::string *path) const;
     void add_all_subitems(std::vector<std::string> *lines, int indentation_level, int line_after_parent, Item *parent_item, std::set<int>* linesParsed);

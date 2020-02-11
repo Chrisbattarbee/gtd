@@ -16,6 +16,7 @@ public:
     std::string* get_name();
     void write_project();
     std::string to_string();
+    void delete_project();
 private:
     OrgModeFile* backing_org_file;
     std::string name;

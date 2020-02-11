@@ -3,6 +3,7 @@
 //
 
 #include "gtd.h"
+#include "subcommands/utils.h"
 #include <filesystem>
 
 
@@ -37,6 +38,10 @@ void Project::write_project() {
 
 std::string Project::to_string() {
     return backing_org_file->to_string();
+}
+
+void Project::delete_project() {
+    std::filesystem::remove(this->backing_org_file->get_path());
 }
 
 Gtd::Gtd(std::string root_directory) {

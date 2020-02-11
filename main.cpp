@@ -1,10 +1,10 @@
-
 #include "lib/CLI11.hpp"
 #include "lib/subcommands/add_subcommand.h"
 #include "lib/subcommands/search_subcommand.h"
 #include "lib/subcommands/list_subcommand.h"
 #include "lib/subcommands/view_subcommand.h"
 #include "lib/subcommands/create_subcommand.h"
+#include "lib/subcommands/delete_subcommand.h"
 
 
 int main(int argc, char** argv) {
@@ -14,6 +14,7 @@ int main(int argc, char** argv) {
     setup_list_subcommand(app);
     setup_view_subcommand(app);
     setup_create_subcommand(app);
+    setup_delete_subcommand(app);
     app.require_subcommand();
 
     CLI11_PARSE(app, argc, argv);

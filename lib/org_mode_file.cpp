@@ -112,6 +112,10 @@ std::string OrgModeFile::to_string() {
     return ret;
 }
 
+std::string OrgModeFile::get_path() {
+    return this->path;
+}
+
 Item::Item(Item *parent, std::string title) {
     if (OrgModeFile::get_number_of_asterisks(&title) == 0 && parent != nullptr) {
         auto parent_title = parent->get_title();
