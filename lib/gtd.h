@@ -9,7 +9,7 @@
 
 class Project {
 public:
-    Project(std::string name, std::string path);
+    Project(std::string name, std::string path, bool create);
     void add_item(std::string title, std::optional<TodoStatus> todo_status);
     void add_sub_item(Item* parent_item, std::string title, std::optional<TodoStatus> todo_status);
     Item* get_root_item();

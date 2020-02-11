@@ -13,7 +13,7 @@ class Item;
 
 class OrgModeFile {
 public:
-    explicit OrgModeFile(std::string path);
+    explicit OrgModeFile(std::string path, bool create);
     void write_file();
     Item* get_root_item();
     static int get_number_of_asterisks(std::string* s);

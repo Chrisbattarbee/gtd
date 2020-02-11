@@ -6,9 +6,9 @@
 #include <filesystem>
 
 
-Project::Project(std::string name, std::string path) {
+Project::Project(std::string name, std::string path, bool create_project) {
     this->name = name;
-    this->backing_org_file = new OrgModeFile(path);
+    this->backing_org_file = new OrgModeFile(path, create_project);
 }
 
 void Project::add_item(std::string title, std::optional<TodoStatus> todo_status) {
@@ -48,14 +48,15 @@ Gtd::Gtd(std::string root_directory) {
         if (entry.path().extension() != ".org") {
             continue;
         }
-        auto* project = new Project(entry.path().filename().replace_extension(""), entry.path());
+        auto* project = new Project(entry.path().filename().replace_extension(""), entry.path(), false);
         this->projects->push_back(project);
     }
 }
 
 Project *Gtd::create_project(std::string name) {
-    auto* project = new Project(name, root_directory + name + ".org");
+    auto* project = new Project(name, root_directory + name + ".org", true);
     this->projects->push_back(project);
+    return project;
 }
 
 std::optional<Project*> Gtd::get_project(std::string name) {

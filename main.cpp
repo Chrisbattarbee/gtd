@@ -4,6 +4,7 @@
 #include "lib/subcommands/search_subcommand.h"
 #include "lib/subcommands/list_subcommand.h"
 #include "lib/subcommands/view_subcommand.h"
+#include "lib/subcommands/create_subcommand.h"
 
 
 int main(int argc, char** argv) {
@@ -12,6 +13,7 @@ int main(int argc, char** argv) {
     setup_search_subcommand(app);
     setup_list_subcommand(app);
     setup_view_subcommand(app);
+    setup_create_subcommand(app);
     app.require_subcommand();
 
     CLI11_PARSE(app, argc, argv);

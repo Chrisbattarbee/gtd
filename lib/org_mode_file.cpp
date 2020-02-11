@@ -5,10 +5,12 @@
 #include "org_mode_file.h"
 #include "magic_enum.hpp"
 
-OrgModeFile::OrgModeFile(std::string path) {
-    std::vector<std::string> *lines = getLines(&path);
+OrgModeFile::OrgModeFile(std::string path, bool create) {
     Item *root_item = new Item(nullptr, "");
-    add_all_subitems(lines, 1, 0, root_item, new std::set<int>);
+    if (!create) {
+        std::vector<std::string> *lines = getLines(&path);
+        add_all_subitems(lines, 1, 0, root_item, new std::set<int>);
+    }
     this->path = path;
     this->root_item = root_item;
 }
