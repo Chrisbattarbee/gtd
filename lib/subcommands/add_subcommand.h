@@ -11,6 +11,7 @@
 struct AddSubCommandOptions {
     std::string todo_item;
     std::string date;
+    std::string time;
 };
 
 void setup_add_subcommand(CLI::App &app);
